@@ -11,6 +11,10 @@
 Yet another torrent searching application for your command line.    
 But this has an option for automatically download the best torrent.
 
+[Read Yardoc from here](http://muratbt.com/tors/doc)... 🤓
+
+[Come here](https://github.com/muratbsts/tors) for stars or forks... 🙃 
+
 ## Installation
 
 Add this line to your application's Gemfile:
