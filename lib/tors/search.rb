@@ -7,12 +7,14 @@ require 'tty-prompt'
 
 module TorS
   class Search
-    def initialize(query = '', from = 'katcr', auto = false)
+    def initialize(query = '', from = 'katcr', auto = false, directory = Dir.pwd)
       @provider = YAML.load_file(File.expand_path("../../../providers/#{from}.yml", __FILE__))
       @query = query
       @from = from
       @auto = auto
+      @directory = directory
 
+      check_download_directory
       scrape
     end
 
@@ -97,8 +99,11 @@ module TorS
         puts choice[:url]
       else
         begin
-          puts 'Downloading ' + choice[:name] + '.torrent'
-          File.write(choice[:name] + '.torrent', Net::HTTP.get(URI.parse(choice[:url])))
+          source            = Net::HTTP.get(URI.parse(choice[:url]))
+          target_file_name  = choice[:name] + '.torrent'
+          target_file       = File.join(@directory, choice[:name])
+          puts 'Downloading ' + target_file_name
+          File.write(target_file, source)
         rescue IOError => e
           puts '😵  There is an error! ' + e.message + ' Here: L108'
         ensure
@@ -110,6 +115,13 @@ module TorS
     def threat_defence(page)
       return false unless page.text =~ /threat_defence.php/
       true
+    end
+
+    private
+
+    def check_download_directory
+      raise "Your download directory #{@directory} not found." unless File.exist? @directory or File.directory? @directory
+      raise "Your download directory #{@directory} not writable." unless File.writable? @directory
     end
   end
 end

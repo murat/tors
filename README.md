@@ -64,6 +64,10 @@ You can use `-a 1` flag for automatically download the best torrent. Example:
 
     $ tors -s 'game of thrones' -p 1337x -a 1
 
+You can use `-d TARGET` flag for set destination storage path. Example:
+
+    $ tors -s 'Assassins' -d $HOME/Downloads -a 1
+
 And you can list all active providers and usage instructions with `-h` or `--help` flag.
 
     $ tors -h
@@ -71,6 +75,7 @@ And you can list all active providers and usage instructions with `-h` or `--hel
         -s, --search=s                   Search term [SEARCH]
         -p, --provider=p                 From provider name [PROVIDER]
         -a, --auto-download=a            Auto download best choice
+        -d, --directory=d                Destination torrent download directory
 
 [![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)
 
