@@ -15,7 +15,10 @@ module TorS
     opts.on('-a=a', '--auto-download=a', 'Auto download best choice') do |a|
       options[:auto] = a || true
     end
+    opts.on('-d=d', '--directory=d', 'Auto download directory') do |d|
+      options[:directory] = d
+    end
   end.parse!
 
-  TorS::Search.new(options[:search], options[:provider] || 'katcr', options[:auto] || false)
+  TorS::Search.new(options[:search], options[:provider] || 'katcr', options[:auto] || false, options[:directory] || Dir.pwd)
 end
