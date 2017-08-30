@@ -100,8 +100,8 @@ module TorS
       else
         begin
           source            = Net::HTTP.get(URI.parse(choice[:url]))
-          target_file_name  = choice[:name] + '.torrent'
-          target_file       = File.join(@directory, choice[:name])
+          target_file_name  = choice[:name].tr("\n", ' ').squeeze(' ').strip + '.torrent'
+          target_file       = File.join(@directory, target_file_name)
           puts 'Downloading ' + target_file_name
           File.write(target_file, source)
         rescue IOError => e
@@ -120,8 +120,13 @@ module TorS
     private
 
     def check_download_directory
-      raise "Your download directory #{@directory} not found." unless File.exist? @directory or File.directory? @directory
-      raise "Your download directory #{@directory} not writable." unless File.writable? @directory
+      ioerr = false
+      ioerr = "😱  Your download directory #{@directory} not found." unless File.exist? @directory or File.directory? @directory
+      ioerr = "😱  Your download directory #{@directory} not writable." unless File.writable? @directory
+      if ioerr
+        puts ioerr
+        Process.kill 9, Process.pid
+      end
     end
   end
 end
