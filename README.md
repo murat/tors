@@ -1,14 +1,14 @@
 # TorS
 
-[![Licence](https://img.shields.io/github/license/muratbsts/tors.svg)](https://github.com/muratbsts/kaca/blob/master/LICENCE)
-[![Release](https://img.shields.io/github/release/muratbsts/tors.svg)](https://github.com/muratbsts/kaca/releases)
-[![Build](https://travis-ci.org/muratbsts/tors.svg?branch=master)](https://travis-ci.org/muratbsts/kaca)
-[![Issues](https://img.shields.io/github/issues/muratbsts/tors.svg)](https://github.com/muratbsts/kaca/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/muratbsts/tors.svg)](https://github.com/muratbsts/kaca/pulls)
+[![Licence](https://img.shields.io/github/license/muratbsts/tors.svg)](https://github.com/muratbsts/tors/blob/master/LICENCE)
+[![Release](https://img.shields.io/github/release/muratbsts/tors.svg)](https://github.com/muratbsts/tors/releases)
+[![Build](https://travis-ci.org/muratbsts/tors.svg?branch=master)](https://travis-ci.org/muratbsts/tors)
+[![Issues](https://img.shields.io/github/issues/muratbsts/tors.svg)](https://github.com/muratbsts/tors/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/muratbsts/tors.svg)](https://github.com/muratbsts/tors/pulls)
 
-[![Downloads](https://img.shields.io/gem/dt/tors.svg)](https://rubygems.org/gems/kaca)
+[![Downloads](https://img.shields.io/gem/dt/tors.svg)](https://rubygems.org/gems/tors)
 
-Yet another torrent searching application for your command line.
+Yet another torrent searching application for your command line.    
 But this has an option for automatically download the best torrent.
 
 ## Installation
