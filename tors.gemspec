@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'nokogiri', '~> 1.8.0'
+  spec.add_dependency 'nokogiri', '~> 1.8', '>= 1.8.0'
   spec.add_dependency 'colorize', '~> 0.8.1'
   spec.add_dependency 'tty-table', '~> 0.8.0'
   spec.add_dependency 'tty-prompt', '~> 0.13.1'
