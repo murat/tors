@@ -7,7 +7,7 @@ require 'tty-prompt'
 
 module TorS
   class Search
-    def initialize(query, from = 'katcr', auto = false)
+    def initialize(query = '', from = 'katcr', auto = false)
       @provider = YAML.load_file(File.expand_path("../../../providers/#{from}.yml", __FILE__))
       @query = query
       @from = from
@@ -17,7 +17,7 @@ module TorS
     end
 
     def scrape
-      @url = @provider['url'].gsub(/%{(\w+)}/, @query.tr(' ', '+'))
+      @url = @provider['url'].gsub(/%{(\w+)}/, @query ? @query.tr(' ', '+') : '')
       @page = Nokogiri::HTML(open(@url))
 
       if @page.css(@provider['scrape']['selector']).empty?
