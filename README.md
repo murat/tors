@@ -72,6 +72,8 @@ And you can list all active providers and usage instructions with `-h` or `--hel
         -p, --provider=p                 From provider name [PROVIDER]
         -a, --auto-download=a            Auto download best choice
 
+[![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
