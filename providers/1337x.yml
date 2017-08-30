@@ -1,0 +1,14 @@
+name: '1337x'
+url: "https://1337x.to/sort-search/%{query}/seeders/desc/1/"
+download_prefix: "https://1337x.to/torrent/"
+scrape:
+  selector: 'div.box-info-detail.inner-table > div.table-list-wrap > table > tbody tr'
+  data:
+    name: 'td.name a:nth-child(2)'
+    category: ''
+    download:
+      url: 'td.name a:nth-child(2)'
+      selector: '.download-links-dontblock li.dropdown ul.dropdown-menu li:first-child a'
+    size: 'td.size'
+    seed: 'td.seeds'
+    leech: 'td.leeches'

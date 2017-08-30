@@ -1,0 +1,12 @@
+name: 'thepiratebay'
+url: "https://thepiratebay.org/search/%{query}/0/7/0"
+download_prefix: ''
+scrape:
+  selector: 'table#searchResult > tr'
+  data:
+    name: 'td:nth-child(2) > div > a'
+    category: 'td.vertTh > center > a:nth-child(3)'
+    download: 'td:nth-child(2) > a:nth-child(2)'
+    size: 'td:nth-child(2) > font'
+    seed: 'td:nth-child(3)'
+    leech: 'td:nth-child(4)'
