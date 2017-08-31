@@ -6,17 +6,21 @@ require 'optparse'
 module TorS
   options = {}
   OptionParser.new do |opts|
+    opts.on('-h', '--help', 'Show usage instructions') do |s|
+      puts opts
+      abort
+    end
     opts.on('-s=s', '--search=s', 'Search term [SEARCH]') do |s|
       options[:search] = s
     end
-    opts.on('-p=p', '--provider=p', 'From provider name [PROVIDER]') do |p|
+    opts.on('-d=d', '--directory=d', 'Destination path for download torrent [DIRECTORY]') do |d|
+      options[:directory] = d
+    end
+    opts.on('-p=p', '--provider=p', 'Provider name [PROVIDER]') do |p|
       options[:provider] = p
     end
-    opts.on('-a=a', '--auto-download=a', 'Auto download best choice') do |a|
-      options[:auto] = a || true
-    end
-    opts.on('-d=d', '--directory=d', 'Auto download directory') do |d|
-      options[:directory] = d
+    opts.on('-a', '--auto-download', 'Auto download best choice') do
+      options[:auto] = true
     end
   end.parse!
 

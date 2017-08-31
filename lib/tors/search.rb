@@ -8,7 +8,13 @@ require 'tty-prompt'
 module TorS
   class Search
     def initialize(query = '', from = 'katcr', auto = false, directory = Dir.pwd)
-      @provider = YAML.load_file(File.expand_path("../../../providers/#{from}.yml", __FILE__))
+      yaml = File.expand_path("../../../providers/#{from}.yml", __FILE__)
+      if File.exists? yaml
+        @provider = YAML.load_file(yaml)
+      else
+        not_exists_provider
+      end
+
       @query = query
       @from = from
       @auto = auto
@@ -70,9 +76,7 @@ module TorS
       puts 'From : ' + @from
 
       table = TTY::Table.new %i[# Category Title Size Seed Leech], @rows
-      puts table.render(:unicode, padding: [0, 1, 0, 1]) do |renderer|
-        renderer.border.style = :green
-      end
+      puts table.render(:unicode, padding: [0, 1, 0, 1])
 
       if @auto
         download @downloads.find { |v| v[:key] == 1 }
@@ -105,7 +109,7 @@ module TorS
           puts 'Downloading ' + target_file_name
           File.write(target_file, source)
         rescue IOError => e
-          puts '😵  There is an error! ' + e.message + ' Here: L108'
+          puts '😵  There is an error! ' + e.message
         ensure
           puts '🥂  Downloaded!'
         end
@@ -119,13 +123,24 @@ module TorS
 
     private
 
+    def not_exists_provider
+      puts "☠️  There is not found #{@from} provider."
+
+      puts 'You must choose from this list.'
+      Dir[File.expand_path('providers/*.yml')].each do |f|
+        puts '- ' + File.basename(f).split('.').first
+      end
+
+      abort 'Exiting'
+    end
+
     def check_download_directory
       ioerr = false
-      ioerr = "😱  Your download directory #{@directory} not found." unless File.exist? @directory or File.directory? @directory
-      ioerr = "😱  Your download directory #{@directory} not writable." unless File.writable? @directory
+      ioerr = "😱  Directory #{@directory} not found." unless File.exist? @directory or File.directory? @directory
+      ioerr = "😱  Directory #{@directory} not writable." unless File.writable? @directory
       if ioerr
         puts ioerr
-        Process.kill 9, Process.pid
+        abort 'Exiting'
       end
     end
   end
