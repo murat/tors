@@ -42,14 +42,20 @@ module TorS
 
       puts 'Scrabing...'
 
-      @page.css(@provider['scrape']['selector']).each_with_index do |row, key|
+      key = 0
+      @page.css(@provider['scrape']['selector']).each do |row|
         hash = {
           key: key + 1,
           name: row.search(@provider['scrape']['data']['name']).text,
           url: ''
         }
         if @provider['scrape']['data']['download'].is_a?(String)
-          hash[:url] = @provider['download_prefix'] + row.search(@provider['scrape']['data']['download']).first['href']
+          link = row.search(@provider['scrape']['data']['download'])
+          if !link.empty?
+            hash[:url] = @provider['download_prefix'] + link.first['href']
+          else
+            next
+          end
         else
           @subpage = Nokogiri::HTML(open(@provider['download_prefix'] + row.css(@provider['scrape']['data']['download']['url']).first['href']))
 
@@ -61,11 +67,13 @@ module TorS
         @rows << [
           (key + 1).to_s,
           !@provider['scrape']['data']['category'].empty? ? row.css(@provider['scrape']['data']['category']).text.tr("\n", ' ').squeeze(' ').strip : '',
-          !@provider['scrape']['data']['name'].empty? ? row.css(@provider['scrape']['data']['name']).text.strip : '',
+          !@provider['scrape']['data']['name'].empty? ? row.css(@provider['scrape']['data']['name']).text.strip[0..60] + '[...]' : '',
           !@provider['scrape']['data']['size'].empty? ? row.css(@provider['scrape']['data']['size']).text.strip : '',
           !@provider['scrape']['data']['seed'].empty? ? row.css(@provider['scrape']['data']['seed']).text.strip.green : '',
           !@provider['scrape']['data']['leech'].empty? ? row.css(@provider['scrape']['data']['leech']).text.strip.red : ''
         ]
+
+        key += 1
       end
 
       results

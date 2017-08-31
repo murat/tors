@@ -43,16 +43,16 @@ Because katcr fastest provider for scrabing currently.
 
 Yep, there is a few provider option.
 
-| Provider          | Status |
-|:------------------|:------:|
-| katcr             | ✅     |
-| rarbg             | ✅     |
-| thepiratebay      | ✅     |
-| extratorrent      | ✅     |
-| 1337x             | ✅     |
-| zooqle            | ☑️     |
-| torrentfunk       | ☑️     |
-| limetorrents      | ☑️     |
+| Provider          | Status | Problems |
+|:------------------|:------:|:---------|
+| katcr             | ✅     | -        |
+| rarbg             | ✅     | Slow Connection, Threat defensing |
+| thepiratebay      | ✅     | Only Magnet      |
+| extratorrent      | ✅     | Slow Connection      |
+| 1337x             | ✅     | Connection N+1 |
+| zooqle            | ✅     | Skipping some torrents          |
+| torrentfunk       | ☑️     | 🙈        |
+| limetorrents      | ☑️     | 🙈        |
 
 Use `-p PROVIDER` flag for scrape another providers.
 
@@ -76,7 +76,9 @@ And you can list all active providers and usage instructions with `-h` or `--hel
         -s, --search=s                   Search term [SEARCH]
         -d, --directory=d                Destination path for download torrent [DIRECTORY]
         -p, --provider=p                 Provider name [PROVIDER]
+        -l, --list-providers             List providers
         -a, --auto-download              Auto download best choice
+
 
 
 [![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)

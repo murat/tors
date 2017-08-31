@@ -1,0 +1,12 @@
+name: 'zooqle'
+url: "https://zooqle.com/search?q=%{query}&s=ns&v=t&sd=d"
+download_prefix: "https://zooqle.com/"
+scrape:
+  selector: 'table.table-torrents > tr'
+  data:
+    name: 'td:nth-child(2) > a'
+    category: ''
+    download: 'td:nth-child(3) ul li:nth-child(3) a'
+    size: 'div.progress-bar.prog-blue'
+    seed: 'div.progress-bar.prog-green'
+    leech: 'div.progress-bar.prog-yellow'
