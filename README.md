@@ -64,22 +64,23 @@ Use `-p PROVIDER` flag for scrape another providers.
 
 And then It will ask for **which torrent you want to download?** You can answer with a torrent number seen on list.
 
-You can use `-a 1` flag for automatically download the best torrent. Example:
+You can use `-a` or `--auto-download` flag for automatically download the best torrent. Example:
 
-    $ tors -s 'game of thrones' -p 1337x -a 1
+    $ tors -s 'game of thrones' -p 1337x -a
 
 You can use `-d TARGET` flag for set destination storage path. Example:
 
-    $ tors -s 'Assassins' -d $HOME/Downloads -a 1
+    $ tors -s 'Assassins' -d $HOME/Downloads -a
 
 And you can list all active providers and usage instructions with `-h` or `--help` flag.
 
     $ tors -h
     Usage: tors [options]
+        -h, --help                       Show usage instructions
         -s, --search=s                   Search term [SEARCH]
-        -p, --provider=p                 From provider name [PROVIDER]
-        -a, --auto-download=a            Auto download best choice
-        -d, --directory=d                Destination torrent download directory
+        -d, --directory=d                Destination path for download torrent [DIRECTORY]
+        -p, --provider=p                 Provider name [PROVIDER]
+        -a, --auto-download              Auto download best choice
 
 [![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)
 
