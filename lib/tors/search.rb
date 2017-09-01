@@ -9,11 +9,11 @@ module TorS
   class Search
     attr_accessor :query, :from, :auto, :directory, :open_torrent
 
-    def initialize(from = 'katcr', &block)
+    def initialize(from = 'katcr')
       @from = from
 
       yaml = File.expand_path("../../../providers/#{from}.yml", __FILE__)
-      if File.exists? yaml
+      if File.exist? yaml
         @provider = YAML.load_file(yaml)
       else
         not_exists_provider
@@ -118,7 +118,7 @@ module TorS
         puts choice[:url]
       else
         begin
-          target_file_name  = choice[:name].tr("\n", ' ').squeeze(' ').strip + '.torrent'
+          target_file_name = choice[:name].tr("\n", ' ').squeeze(' ').strip + '.torrent'
           puts 'Downloading ' + target_file_name
 
           source            = Net::HTTP.get(URI.parse(choice[:url]))
@@ -160,7 +160,7 @@ module TorS
 
     def check_download_directory
       ioerr = false
-      ioerr = "😱  Directory #{@directory} not found." unless File.exist? @directory or File.directory? @directory
+      ioerr = "😱  Directory #{@directory} not found." unless File.exist?(@directory) || File.directory?(@directory)
       ioerr = "😱  Directory #{@directory} not writable." unless File.writable? @directory
       if ioerr
         puts ioerr

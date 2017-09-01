@@ -6,7 +6,7 @@ require 'optparse'
 module TorS
   options = {}
   OptionParser.new do |opts|
-    opts.on('-h', '--help', 'Show usage instructions') do |h|
+    opts.on('-h', '--help', 'Show usage instructions') do |_h|
       puts opts
       abort
     end
@@ -19,7 +19,7 @@ module TorS
     opts.on('-p=p', '--provider=p', 'Provider name [PROVIDER]') do |p|
       options[:provider] = p
     end
-    opts.on('-l', '--list-providers', 'List providers') do |l|
+    opts.on('-l', '--list-providers', 'List providers') do |_l|
       Dir[File.expand_path('providers/*.yml')].each do |f|
         puts '- ' + File.basename(f).split('.').first
       end
@@ -34,7 +34,6 @@ module TorS
         options[:open] = true
       end
     end
-
   end.parse!
 
   tors = TorS::Search.new(options[:provider] || 'katcr') do |ts|
@@ -45,5 +44,4 @@ module TorS
   end
 
   tors.run
-
 end
