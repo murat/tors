@@ -7,7 +7,11 @@ require 'tty-prompt'
 
 module TorS
   class Search
-    def initialize(query = '', from = 'katcr', auto = false, directory = Dir.pwd)
+    attr_accessor :query, :from, :auto, :directory, :open_torrent
+
+    def initialize(from = 'katcr', &block)
+      @from = from
+
       yaml = File.expand_path("../../../providers/#{from}.yml", __FILE__)
       if File.exists? yaml
         @provider = YAML.load_file(yaml)
@@ -15,11 +19,14 @@ module TorS
         not_exists_provider
       end
 
-      @query = query
-      @from = from
-      @auto = auto
-      @directory = directory
+      if block_given?
+        yield self
+      else
+        raise "#{self.class} requires block to initialize"
+      end
+    end
 
+    def run
       check_download_directory
       scrape
     end
@@ -111,15 +118,24 @@ module TorS
         puts choice[:url]
       else
         begin
-          source            = Net::HTTP.get(URI.parse(choice[:url]))
           target_file_name  = choice[:name].tr("\n", ' ').squeeze(' ').strip + '.torrent'
-          target_file       = File.join(@directory, target_file_name)
           puts 'Downloading ' + target_file_name
+
+          source            = Net::HTTP.get(URI.parse(choice[:url]))
+          target_file       = File.join(@directory, target_file_name)
+
           File.write(target_file, source)
         rescue IOError => e
+          # FIXME: what about HTTP errors? Net::HTTP throws a number of
+          # exceptions. It would be wise to use another HTTP library for this
+          # purpose
           puts '😵  There is an error! ' + e.message
-        ensure
+        else
           puts '🥂  Downloaded!'
+
+          # Open torrent option is only present in Darwin platform so there is
+          # no need to check the platform here
+          system("open '#{target_file}'") if @open_torrent
         end
       end
     end

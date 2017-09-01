@@ -28,7 +28,22 @@ module TorS
     opts.on('-a', '--auto-download', 'Auto download best choice') do
       options[:auto] = true
     end
+
+    if RUBY_PLATFORM =~ /darwin/
+      opts.on('-o', '--open', 'Open torrent after downloading') do
+        options[:open] = true
+      end
+    end
+
   end.parse!
 
-  TorS::Search.new(options[:search], options[:provider] || 'katcr', options[:auto] || false, options[:directory] || Dir.pwd)
+  tors = TorS::Search.new(options[:provider] || 'katcr') do |ts|
+    ts.query        = options[:search]
+    ts.auto         = options[:auto] || false
+    ts.directory    = options[:directory] || Dir.pwd
+    ts.open_torrent = options[:open] || false
+  end
+
+  tors.run
+
 end
