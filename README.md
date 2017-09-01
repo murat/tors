@@ -47,16 +47,16 @@ Because katcr fastest provider for scrabing currently.
 
 Yep, there is a few provider option.
 
-| Provider          | Status |
-|:------------------|:------:|
-| katcr             | ✅     |
-| rarbg             | ✅     |
-| thepiratebay      | ✅     |
-| extratorrent      | ✅     |
-| 1337x             | ✅     |
-| zooqle            | ☑️     |
-| torrentfunk       | ☑️     |
-| limetorrents      | ☑️     |
+| Provider          | Status | Problems |
+|:------------------|:------:|:---------|
+| katcr             | ✅     | -        |
+| rarbg             | ✅     | Slow Connection, Threat defensing |
+| thepiratebay      | ✅     | Only Magnet      |
+| extratorrent      | ✅     | Slow Connection      |
+| 1337x             | ✅     | Connection N+1 |
+| zooqle            | ✅     | Skipping some torrents          |
+| torrentfunk       | ☑️     | 🙈        |
+| limetorrents      | ☑️     | 🙈        |
 
 Use `-p PROVIDER` flag for scrape another providers.
 
@@ -80,7 +80,11 @@ And you can list all active providers and usage instructions with `-h` or `--hel
         -s, --search=s                   Search term [SEARCH]
         -d, --directory=d                Destination path for download torrent [DIRECTORY]
         -p, --provider=p                 Provider name [PROVIDER]
+        -l, --list-providers             List providers
         -a, --auto-download              Auto download best choice
+        -o, --open                       Open torrent after downloading
+
+
 
 [![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)
 
@@ -92,7 +96,13 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at [https://github.com/muratbsts/TorS](https://github.com/muratbsts/tors). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at [https://github.com/muratbsts/tors](https://github.com/muratbsts/tors). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+## Contributors
+
+- [Murat Bastas](https://github.com/muratbsts)
+- [Eren Türkay](https://github.com/eren)
+- [Muhammet Dilmaç](https://github.com/muhammetdilmac)
 
 ## License
 
