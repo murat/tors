@@ -16,7 +16,7 @@ module TorS
       if File.exists? yaml
         @provider = YAML.load_file(yaml)
       else
-        not_exists_provider
+        list_providers_and_exit
       end
 
       if block_given?
@@ -37,7 +37,7 @@ module TorS
 
       if @page.css(@provider['scrape']['selector']).empty?
         if threat_defence @page
-          puts '😰  Sorry, I think you banned from ' + @from + '. There is a threat defense redirection.'
+          puts "😰  Sorry, I think you are banned from #{from}. There is a threat defense redirection."
         end
 
         puts 'Please check this url is works : ' + @url
@@ -47,7 +47,7 @@ module TorS
       @rows = []
       @downloads = []
 
-      puts 'Scrabing...'
+      puts 'Scraping...'
 
       key = 0
       @page.css(@provider['scrape']['selector']).each do |row|
@@ -102,7 +102,7 @@ module TorS
 
     def prompt
       prompt = TTY::Prompt.new(interrupt: :exit)
-      choice = prompt.ask("Which torrent you want to download? (1..#{@downloads.size} or ctrl+c/cmd+c for interrupt)",
+      choice = prompt.ask("Which torrent do you want to download? (1..#{@downloads.size} or ctrl+c/cmd+c to interrupt)",
                           convert: :int,
                           default: 1) do |c|
         c.in "1-#{@downloads.size}"
@@ -114,7 +114,7 @@ module TorS
 
     def download(choice)
       if choice[:url] =~ /^magnet:\?/
-        puts '😏  Sorry, I can\'t start automatically magnet links. Please use this in your torrent client.'
+        puts '😏  Sorry, I cannot download magnet links. Please copy/paste the following link into your torrent client'
         puts choice[:url]
       else
         begin
@@ -147,15 +147,15 @@ module TorS
 
     private
 
-    def not_exists_provider
-      puts "☠️  There is not found #{@from} provider."
+    def list_providers_and_exit
+      puts "☠️  Provider '#{@from}' does not exist."
+      puts "Please choose a valid provider from the following list:\n\n"
 
-      puts 'You must choose from this list.'
       Dir[File.expand_path('providers/*.yml')].each do |f|
         puts '- ' + File.basename(f).split('.').first
       end
 
-      abort 'Exiting'
+      abort
     end
 
     def check_download_directory
