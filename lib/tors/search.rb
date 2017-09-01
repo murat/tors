@@ -120,7 +120,6 @@ module TorS
           puts '😵  There is an error! ' + e.message
         ensure
           puts '🥂  Downloaded!'
-          system 'open', target_file if RUBY_PLATFORM =~ /darwin/
         end
       end
     end
