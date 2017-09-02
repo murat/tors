@@ -26,9 +26,13 @@ module TorS
       options[:password] = p
     end
     opts.on('-l', '--list-providers', 'List providers') do |_l|
-      Dir[File.expand_path('providers/*.yml')].each do |f|
-        puts '- ' + File.basename(f).split('.').first
-      end
+      puts '- 1337x'
+      puts '- extratorrent'
+      puts '- katcr'
+      puts '- rarbg'
+      puts '- thepiratebay'
+      puts '- zamunda'
+      puts '- zooqle'
       abort
     end
     opts.on('-a', '--auto-download', 'Auto download best choice') do

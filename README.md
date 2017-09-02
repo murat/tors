@@ -31,7 +31,7 @@ Or install it yourself as:
 
 Open your terminal and run this command:
 
-    $ tors -s 'game of thrones'
+    $ tors -s 'ubuntu'
 
 It will list torrents ordered descending by seeder from **katcr**.
 
@@ -57,13 +57,13 @@ Yep, there is a few provider option.
 
 Use `-p PROVIDER` flag for scrape another providers.
 
-    $ tors -s 'game of thrones' -p thepiratebay
+    $ tors -s 'ubuntu' -p thepiratebay
 
 And then It will ask for **which torrent you want to download?** You can answer with a torrent number seen on list.
 
 You can use `-a` or `--auto-download` flag for automatically download the best torrent. Example:
 
-    $ tors -s 'game of thrones' -p 1337x -a
+    $ tors -s 'ubuntu' -p 1337x -a
 
 You can use `-d TARGET` flag for set destination storage path. Example:
 
@@ -85,7 +85,7 @@ And you can list all active providers and usage instructions with `-h` or `--hel
 
 
 
-[![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)
+[![asciicast](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2.png)](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2)
 
 ## Development
 
