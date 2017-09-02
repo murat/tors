@@ -33,14 +33,10 @@ module TorS
     end
 
     def scrape
-      @url = @provider['url'].gsub(/%{(\w+)}/, @query ? @query.tr(' ', '+') : '')
+      @url = URI.encode(@provider['url'].gsub(/%{(\w+)}/, @query ? @query : ''))
       @page = Nokogiri::HTML(open(@url))
 
       if @provider['authenticate']
-        # FIXME: This must be refactor
-        # Nokogiri dependency is not necessary with mechanize
-        # (Mechanize already dependent to nokogiri)
-        # And mechanize has all features of nokogiri.
         authenticate
       end
 
@@ -154,6 +150,10 @@ module TorS
       end
     end
 
+    # FIXME: This must be refactored
+    # Nokogiri dependency is not necessary with mechanize
+    # (Mechanize already dependent to nokogiri)
+    # And mechanize has all features of nokogiri.
     def authenticate
       @mechanize = Mechanize.new
       puts '⚠ Trying authentication'.cyan
