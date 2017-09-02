@@ -45,14 +45,15 @@ Yep, there is a few provider option.
 
 | Provider          | Status | Problems |
 |:------------------|:------:|:---------|
-| katcr             | ✅     | -        |
+| katcr             | ✅     | - |
 | rarbg             | ✅     | Slow Connection, Threat defensing |
-| thepiratebay      | ✅     | Only Magnet      |
-| extratorrent      | ✅     | Slow Connection      |
+| thepiratebay      | ✅     | Only Magnet |
+| extratorrent      | ✅     | Slow Connection |
 | 1337x             | ✅     | Connection N+1 |
-| zooqle            | ✅     | Skipping some torrents          |
-| torrentfunk       | ☑️     | 🙈        |
-| limetorrents      | ☑️     | 🙈        |
+| zooqle            | ✅     | Skipping some torrents |
+| zamunda           | ✅     | Redirects for authentication |
+| torrentfunk       | ☑️     | 🙈 |
+| limetorrents      | ☑️     | 🙈 |
 
 Use `-p PROVIDER` flag for scrape another providers.
 
@@ -72,13 +73,15 @@ And you can list all active providers and usage instructions with `-h` or `--hel
 
     $ tors -h
     Usage: tors [options]
-        -h, --help                       Show usage instructions
-        -s, --search=s                   Search term [SEARCH]
-        -d, --directory=d                Destination path for download torrent [DIRECTORY]
-        -p, --provider=p                 Provider name [PROVIDER]
-        -l, --list-providers             List providers
-        -a, --auto-download              Auto download best choice
-        -o, --open                       Open torrent after downloading
+         -h, --help                       Show usage instructions
+         -s, --search=s                   Search term [SEARCH]
+         -d, --directory=d                Destination path for downloaded torrent [DIRECTORY]
+         -p, --provider=p                 Provider name [PROVIDER]
+         -u, --username=u                 Username for authentication
+         -w, --password=p                 Password for authentication
+         -l, --list-providers             List providers
+         -a, --auto-download              Auto download best choice
+         -o, --open                       Open torrent after downloading
 
 
 
