@@ -43,17 +43,17 @@ Because katcr fastest provider for scrabing currently.
 
 Yep, there is a few provider option.
 
-| Provider          | Status | Problems |
-|:------------------|:------:|:---------|
-| katcr             | ✅     | - |
+| Provider          | Status | Problems                          |
+|:------------------|:------:|:----------------------------------|
+| katcr             | ✅     | -                                 |
 | rarbg             | ✅     | Slow Connection, Threat defensing |
-| thepiratebay      | ✅     | Only Magnet |
-| extratorrent      | ✅     | Slow Connection |
-| 1337x             | ✅     | Connection N+1 |
-| zooqle            | ✅     | Skipping some torrents |
-| zamunda           | ✅     | Require authentication |
-| torrentfunk       | ☑️       | 🙈 |
-| limetorrents      | ☑️       | 🙈 |
+| thepiratebay      | ✅     | Only Magnet                       |
+| extratorrent      | ✅     | Slow Connection                   |
+| 1337x             | ✅     | Connection N+1                    |
+| zooqle            | ✅     | Skipping some torrents            |
+| zamunda           | ✅     | Require authentication            |
+| torrentfunk       | ☑️      | 🙈                                |
+| limetorrents      | ☑️      | 🙈                                |
 
 Use `-p PROVIDER` flag for scrape another providers.
 
@@ -67,7 +67,7 @@ You can use `-a` or `--auto-download` flag for automatically download the best t
 
 You can use `-d TARGET` flag for set destination storage path. Example:
 
-    $ tors -s 'Assassins' -d $HOME/Downloads -a
+    $ tors -s 'ubuntu' -d $HOME/Downloads -a
 
 And you can list all active providers and usage instructions with `-h` or `--help` flag.
 
