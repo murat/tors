@@ -1,13 +1,14 @@
 require 'yaml'
 require 'net/http'
 require 'nokogiri'
+require 'mechanize'
 require 'open-uri'
 require 'tty-table'
 require 'tty-prompt'
 
 module TorS
   class Search
-    attr_accessor :query, :from, :auto, :directory, :open_torrent
+    attr_accessor :query, :from, :username, :password, :directory, :auto, :open_torrent
 
     def initialize(from = 'katcr')
       @from = from
@@ -32,12 +33,16 @@ module TorS
     end
 
     def scrape
-      @url = @provider['url'].gsub(/%{(\w+)}/, @query ? @query.tr(' ', '+') : '')
+      @url = URI.encode(@provider['url'].gsub(/%{(\w+)}/, @query ? @query : ''))
       @page = Nokogiri::HTML(open(@url))
+
+      if @provider['authenticate']
+        authenticate
+      end
 
       if @page.css(@provider['scrape']['selector']).empty?
         if threat_defence @page
-          puts "😰  Sorry, I think you are banned from #{from}. There is a threat defense redirection."
+          puts "😰  Sorry, I think you are banned from #{from}. There is a threat defense redirection.".red
         end
 
         puts 'Please check this url is works : ' + @url
@@ -47,7 +52,7 @@ module TorS
       @rows = []
       @downloads = []
 
-      puts 'Scraping...'
+      puts 'Scraping...'.blue
 
       key = 0
       @page.css(@provider['scrape']['selector']).each do |row|
@@ -121,10 +126,15 @@ module TorS
           target_file_name = choice[:name].tr("\n", ' ').squeeze(' ').strip + '.torrent'
           puts 'Downloading ' + target_file_name
 
-          source            = Net::HTTP.get(URI.parse(choice[:url]))
-          target_file       = File.join(@directory, target_file_name)
+          target_file = File.join(@directory, target_file_name)
 
-          File.write(target_file, source)
+          if @provider['authenticate']
+            source = @mechanize.get URI.parse(choice[:url])
+            source.save_as(target_file)
+          else
+            source = Net::HTTP.get(URI.parse(choice[:url]))
+            File.write(target_file, source)
+          end
         rescue IOError => e
           # FIXME: what about HTTP errors? Net::HTTP throws a number of
           # exceptions. It would be wise to use another HTTP library for this
@@ -138,6 +148,29 @@ module TorS
           system("open '#{target_file}'") if @open_torrent
         end
       end
+    end
+
+    # FIXME: This must be refactored
+    # Nokogiri dependency is not necessary with mechanize
+    # (Mechanize already dependent to nokogiri)
+    # And mechanize has all features of nokogiri.
+    def authenticate
+      @mechanize = Mechanize.new
+      puts '⚠ Trying authentication'.cyan
+
+      @page = @mechanize.get @url
+      login_form = @page.form_with(name: @provider['authenticate']['form_name']) do |login|
+        login[@provider['authenticate']['username_input']] = @username
+        login[@provider['authenticate']['password_input']] = @password
+      end
+      @page = login_form.submit
+
+      if @page.css(@provider['scrape']['selector']).empty?
+        puts 'Login failed with your credentials!'.red
+        abort
+      end
+      
+      puts '✔ Authentication successfull'.green
     end
 
     def threat_defence(page)

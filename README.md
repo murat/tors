@@ -51,8 +51,9 @@ Yep, there is a few provider option.
 | extratorrent      | ✅     | Slow Connection |
 | 1337x             | ✅     | Connection N+1 |
 | zooqle            | ✅     | Skipping some torrents |
-| torrentfunk       | ☑️     | 🙈 |
-| limetorrents      | ☑️     | 🙈 |
+| zamunda           | ✅     | Require authentication |
+| torrentfunk       | ☑️       | 🙈 |
+| limetorrents      | ☑️       | 🙈 |
 
 Use `-p PROVIDER` flag for scrape another providers.
 
@@ -76,10 +77,11 @@ And you can list all active providers and usage instructions with `-h` or `--hel
          -s, --search=s                   Search term [SEARCH]
          -d, --directory=d                Destination path for downloaded torrent [DIRECTORY]
          -p, --provider=p                 Provider name [PROVIDER]
+         -u, --username=u                 Username for authentication
+         -w, --password=p                 Password for authentication
          -l, --list-providers             List providers
          -a, --auto-download              Auto download best choice
          -o, --open                       Open torrent after downloading
-
 
 [![See it in action](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2.png)](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2)
 
