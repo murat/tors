@@ -11,9 +11,9 @@
 Yet another torrent searching application for your command line.    
 But this has an option for automatically download the best torrent.
 
-[Read Yardoc from here](http://muratbt.com/tors/doc)... 🤓
+[Read yardoc from here](http://muratbt.com/tors/doc)...
 
-[Come here](https://github.com/muratbsts/tors) for stars or forks... 🙃 
+[Come here](https://github.com/muratbsts/tors) for stars or forks...
 
 ## Installation
 
@@ -35,7 +35,7 @@ Or install it yourself as:
 
 Open your terminal and run this command:
 
-    $ tors -s 'game of thrones'
+    $ tors -s 'ubuntu'
 
 It will list torrents ordered descending by seeder from **katcr**.
 
@@ -47,46 +47,47 @@ Because katcr fastest provider for scrabing currently.
 
 Yep, there is a few provider option.
 
-| Provider          | Status | Problems |
-|:------------------|:------:|:---------|
-| katcr             | ✅     | -        |
+| Provider          | Status | Problems                          |
+|:------------------|:------:|:----------------------------------|
+| katcr             | ✅     | -                                 |
 | rarbg             | ✅     | Slow Connection, Threat defensing |
-| thepiratebay      | ✅     | Only Magnet      |
-| extratorrent      | ✅     | Slow Connection      |
-| 1337x             | ✅     | Connection N+1 |
-| zooqle            | ✅     | Skipping some torrents          |
-| torrentfunk       | ☑️     | 🙈        |
-| limetorrents      | ☑️     | 🙈        |
+| thepiratebay      | ✅     | Only Magnet                       |
+| extratorrent      | ✅     | Slow Connection                   |
+| 1337x             | ✅     | Connection N+1                    |
+| zooqle            | ✅     | Skipping some torrents            |
+| zamunda           | ✅     | Require authentication            |
+| torrentfunk       | ☑️      | 🙈                                |
+| limetorrents      | ☑️      | 🙈                                |
 
 Use `-p PROVIDER` flag for scrape another providers.
 
-    $ tors -s 'game of thrones' -p thepiratebay
+    $ tors -s 'ubuntu' -p thepiratebay
 
 And then It will ask for **which torrent you want to download?** You can answer with a torrent number seen on list.
 
 You can use `-a` or `--auto-download` flag for automatically download the best torrent. Example:
 
-    $ tors -s 'game of thrones' -p 1337x -a
+    $ tors -s 'ubuntu' -p 1337x -a
 
 You can use `-d TARGET` flag for set destination storage path. Example:
 
-    $ tors -s 'Assassins' -d $HOME/Downloads -a
+    $ tors -s 'ubuntu' -d $HOME/Downloads -a
 
 And you can list all active providers and usage instructions with `-h` or `--help` flag.
 
     $ tors -h
     Usage: tors [options]
-        -h, --help                       Show usage instructions
-        -s, --search=s                   Search term [SEARCH]
-        -d, --directory=d                Destination path for download torrent [DIRECTORY]
-        -p, --provider=p                 Provider name [PROVIDER]
-        -l, --list-providers             List providers
-        -a, --auto-download              Auto download best choice
-        -o, --open                       Open torrent after downloading
+         -h, --help                       Show usage instructions
+         -s, --search=s                   Search term [SEARCH]
+         -d, --directory=d                Destination path for downloaded torrent [DIRECTORY]
+         -p, --provider=p                 Provider name [PROVIDER]
+         -u, --username=u                 Username for authentication
+         -w, --password=p                 Password for authentication
+         -l, --list-providers             List providers
+         -a, --auto-download              Auto download best choice
+         -o, --open                       Open torrent after downloading
 
-
-
-[![See it in action](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS.png)](https://asciinema.org/a/No1Zdfk3gYoCYdGb2XUdFaUyS)
+[![See it in action](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2.png)](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2)
 
 ## Development
 
