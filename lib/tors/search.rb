@@ -13,6 +13,8 @@ module TorS
     attr_accessor :query, :from, :username, :password, :directory, :auto, :open_torrent
 
     def initialize(from = 'katcr')
+      raise "#{self.class} requires block to initialize" unless block_given?
+
       @from = from
 
       yaml = File.expand_path("../../../providers/#{from}.yml", __FILE__)
@@ -22,11 +24,7 @@ module TorS
         list_providers_and_exit
       end
 
-      if block_given?
-        yield self
-      else
-        raise "#{self.class} requires block to initialize"
-      end
+      yield self
     end
 
     def run
@@ -38,9 +36,7 @@ module TorS
       @url = URI.encode(@provider['url'].gsub(/%{(\w+)}/, @query ? @query : ''))
       @page = Nokogiri::HTML(open(@url))
 
-      if @provider['authenticate']
-        authenticate
-      end
+      authenticate if @provider['authenticate']
 
       if @page.css(@provider['scrape']['selector']).empty?
         if threat_defence @page
