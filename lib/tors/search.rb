@@ -7,7 +7,6 @@ require 'tty-table'
 require 'tty-prompt'
 require 'colorize'
 
-
 module TorS
   class Search
     attr_accessor :query, :from, :username, :password, :directory, :auto, :open_torrent
@@ -40,10 +39,10 @@ module TorS
 
       if @page.css(@provider['scrape']['selector']).empty?
         if threat_defence @page
-          puts "Sorry, I think you are banned from #{from}. There is a threat defense redirection.".red
+          puts "Sorry, I think you are banned from #{@from}. There is a threat defense redirection.".red
         end
 
-        puts "Cannot parse the page (#{url})".red
+        puts "Cannot parse the page (#{@url})".red
         return
       end
 
