@@ -5,12 +5,16 @@ require 'mechanize'
 require 'open-uri'
 require 'tty-table'
 require 'tty-prompt'
+require 'colorize'
+
 
 module TorS
   class Search
     attr_accessor :query, :from, :username, :password, :directory, :auto, :open_torrent
 
     def initialize(from = 'katcr')
+      raise "#{self.class} requires block to initialize" unless block_given?
+
       @from = from
 
       yaml = File.expand_path("../../../providers/#{from}.yml", __FILE__)
@@ -20,11 +24,7 @@ module TorS
         list_providers_and_exit
       end
 
-      if block_given?
-        yield self
-      else
-        raise "#{self.class} requires block to initialize"
-      end
+      yield self
     end
 
     def run
@@ -36,16 +36,14 @@ module TorS
       @url = URI.encode(@provider['url'].gsub(/%{(\w+)}/, @query ? @query : ''))
       @page = Nokogiri::HTML(open(@url))
 
-      if @provider['authenticate']
-        authenticate
-      end
+      authenticate if @provider['authenticate']
 
       if @page.css(@provider['scrape']['selector']).empty?
         if threat_defence @page
-          puts "😰  Sorry, I think you are banned from #{from}. There is a threat defense redirection.".red
+          puts "Sorry, I think you are banned from #{from}. There is a threat defense redirection.".red
         end
 
-        puts 'Please check this url is works : ' + @url
+        puts "Cannot parse the page (#{url})".red
         return
       end
 
@@ -119,7 +117,7 @@ module TorS
 
     def download(choice)
       if choice[:url] =~ /^magnet:\?/
-        puts '😏  Sorry, I cannot download magnet links. Please copy/paste the following link into your torrent client'
+        puts 'Sorry! I cannot download magnet links. Please copy/paste the following link into your torrent client'.red
         puts choice[:url]
       else
         begin
@@ -139,9 +137,9 @@ module TorS
           # FIXME: what about HTTP errors? Net::HTTP throws a number of
           # exceptions. It would be wise to use another HTTP library for this
           # purpose
-          puts '😵  There is an error! ' + e.message
+          puts 'There is an error! ' + e.message
         else
-          puts '🥂  Downloaded!'
+          puts '✔ Downloaded!'.green
 
           # Open torrent option is only present in Darwin platform so there is
           # no need to check the platform here
@@ -169,8 +167,8 @@ module TorS
         puts 'Login failed with your credentials!'.red
         abort
       end
-      
-      puts '✔ Authentication successfull'.green
+
+      puts '✔ Authentication successful'.green
     end
 
     def threat_defence(page)
@@ -181,7 +179,7 @@ module TorS
     private
 
     def list_providers_and_exit
-      puts "☠️  Provider '#{@from}' does not exist."
+      puts "Provider '#{@from}' does not exist.".red
       puts "Please choose a valid provider from the following list:\n\n"
 
       Dir[File.expand_path('providers/*.yml')].each do |f|
@@ -193,10 +191,11 @@ module TorS
 
     def check_download_directory
       ioerr = false
-      ioerr = "😱  Directory #{@directory} not found." unless File.exist?(@directory) || File.directory?(@directory)
-      ioerr = "😱  Directory #{@directory} not writable." unless File.writable? @directory
+      ioerr = "Directory #{@directory} not found." unless File.exist?(@directory) || File.directory?(@directory)
+      ioerr = "Directory #{@directory} not writable." unless File.writable? @directory
+
       if ioerr
-        puts ioerr
+        puts ioerr.red
         abort 'Exiting'
       end
     end

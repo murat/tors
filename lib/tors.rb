@@ -1,6 +1,5 @@
 require 'tors/version'
 require 'tors/search'
-require 'colorize'
 require 'optparse'
 
 module TorS
