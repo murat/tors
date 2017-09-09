@@ -30,7 +30,7 @@ module TorS
       puts '- katcr'
       puts '- rarbg'
       puts '- thepiratebay'
-      puts '- zamunda'
+      puts '- zamunda (require authentication)'
       puts '- zooqle'
       abort
     end
