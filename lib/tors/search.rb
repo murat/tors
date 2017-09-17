@@ -9,12 +9,17 @@ require 'colorize'
 
 module TorS
   class Search
-    attr_accessor :query, :from, :username, :password, :directory, :auto, :open_torrent
+    attr_accessor :from, :username, :password, :directory, :auto_download, :open_torrent
 
-    def initialize(from = 'katcr')
+    # Initialize class. Only query string is required and the rest of the attributes
+    # are assigned default values.
+    def initialize(query)
       raise "#{self.class} requires block to initialize" unless block_given?
+      yield self
 
-      @from = from
+      @query = query
+      @from ||= 'katcr'
+      @directory ||= Dir.pwd
 
       yaml = File.expand_path("../../../providers/#{from}.yml", __FILE__)
       if File.exist? yaml
@@ -22,8 +27,6 @@ module TorS
       else
         list_providers_and_exit
       end
-
-      yield self
     end
 
     def run
@@ -95,7 +98,7 @@ module TorS
       table = TTY::Table.new %i[# Category Title Size Seed Leech], @rows
       puts table.render(:unicode, padding: [0, 1, 0, 1])
 
-      if @auto
+      if @auto_download
         download @downloads.find { |v| v[:key] == 1 }
       else
         prompt

@@ -1,58 +1,69 @@
 require 'tors/version'
 require 'tors/search'
-require 'optparse'
+require 'slop'
 
+# Main module for passing options and initializing TorS::Search class
 module TorS
-  options = {}
-  OptionParser.new do |opts|
-    opts.on('-h', '--help', 'Show usage instructions') do |_h|
-      puts opts
-      abort
-    end
-    opts.on('-s=s', '--search=s', 'Search term [SEARCH]') do |s|
-      options[:search] = s
-    end
-    opts.on('-d=d', '--directory=d', 'Destination path for downloaded torrent [DIRECTORY]') do |d|
-      options[:directory] = d
-    end
-    opts.on('-p=p', '--provider=p', 'Provider name [PROVIDER]') do |p|
-      options[:provider] = p
-    end
-    opts.on('-u=u', '--username=u', 'Username for authentication') do |u|
-      options[:username] = u
-    end
-    opts.on('-w=p', '--password=p', 'Password for authentication') do |p|
-      options[:password] = p
-    end
-    opts.on('-l', '--list-providers', 'List providers') do |_l|
+  REQUIRE_AUTH = %w[zamunda].freeze
+
+  opts = Slop.parse do |o|
+    o.banner = 'usage: tors [options] SEARCH_STRING'
+    o.string '-d', '--directory', 'Destination path for downloaded torrent', default: Dir.pwd
+    o.string '-p', '--provider', 'Provider name', default: 'katcr'
+    o.string '-u', '--username', 'Username for authentication'
+    o.string '-w', '--password', 'Password for authentication'
+    o.on     '-l', '--list-providers', 'List available providers' do
       puts '- 1337x'
       puts '- extratorrent'
       puts '- katcr'
       puts '- rarbg'
       puts '- thepiratebay'
-      puts '- zamunda (require authentication)'
+      puts '- zamunda (requires authentication)'
       puts '- zooqle'
-      abort
+      exit
     end
-    opts.on('-a', '--auto-download', 'Auto download best choice') do
-      options[:auto] = true
-    end
+
+    o.bool '-a', '--auto-download', 'Auto download best choice', default: false
 
     if RUBY_PLATFORM =~ /darwin/
-      opts.on('-o', '--open', 'Open torrent after downloading') do
-        options[:open] = true
-      end
+      o.bool '-o', '--open', 'Open torrent after downloading', default: false
     end
-  end.parse!
 
-  tors = TorS::Search.new(options[:provider] || 'katcr') do |ts|
-    ts.username     = options[:username]
-    ts.password     = options[:password]
-    ts.query        = options[:search]
-    ts.auto         = options[:auto] || false
-    ts.directory    = options[:directory] || Dir.pwd
-    ts.open_torrent = options[:open] || false
+    o.on '-h', '--help', 'Print help' do
+      puts o
+      exit
+    end
+
+    o.on '-v', '--version', 'Print version' do
+      puts VERSION
+      exit
+    end
+  end
+
+  if opts.arguments.empty?
+    puts opts
+    exit
+  end
+
+  if REQUIRE_AUTH.include?(opts['provider'])
+    if opts['username'].nil? || opts['password'].nil?
+      puts "ERROR! Provider #{opts['provider']} requires username and password for authentication".red
+      abort
+    end
+  end
+
+  tors = TorS::Search.new(opts.arguments[0]) do |ts|
+    ts.username      = opts['username']
+    ts.password      = opts['password']
+    ts.from          = opts['provider']
+    ts.auto_download = opts.auto_download?
+    ts.directory     = opts['directory']
+
+    # We only have this option in Darwin platform and slop throws an exception
+    # for non-defined parameters. That's the reason to check the platform here
+    ts.open_torrent = RUBY_PLATFORM =~ /darwin/ ? opts.open? : false
   end
 
   tors.run
+
 end
