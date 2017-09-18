@@ -8,7 +8,7 @@
 
 [![Downloads](https://img.shields.io/gem/dt/tors.svg)](https://rubygems.org/gems/tors)
 
-Yet another torrent searching application for your command line.    
+Yet another torrent searching application for your command line.
 But this has an option for automatically download the best torrent.
 
 ## Installation
@@ -31,7 +31,7 @@ Or install it yourself as:
 
 Open your terminal and run this command:
 
-    $ tors -s 'ubuntu'
+    $ tors 'ubuntu'
 
 It will list torrents ordered descending by seeder from **katcr**.
 
@@ -57,31 +57,31 @@ Yep, there is a few provider option.
 
 Use `-p PROVIDER` flag for scrape another providers.
 
-    $ tors -s 'ubuntu' -p thepiratebay
+    $ tors 'ubuntu' -p thepiratebay
 
 And then It will ask for **which torrent you want to download?** You can answer with a torrent number seen on list.
 
 You can use `-a` or `--auto-download` flag for automatically download the best torrent. Example:
 
-    $ tors -s 'ubuntu' -p 1337x -a
+    $ tors 'ubuntu' -p 1337x -a
 
 You can use `-d TARGET` flag for set destination storage path. Example:
 
-    $ tors -s 'ubuntu' -d $HOME/Downloads -a
+    $ tors 'ubuntu' -d $HOME/Downloads -a
 
 And you can list all active providers and usage instructions with `-h` or `--help` flag.
 
     $ tors -h
-    Usage: tors [options]
-         -h, --help                       Show usage instructions
-         -s, --search=s                   Search term [SEARCH]
-         -d, --directory=d                Destination path for downloaded torrent [DIRECTORY]
-         -p, --provider=p                 Provider name [PROVIDER]
-         -u, --username=u                 Username for authentication
-         -w, --password=p                 Password for authentication
-         -l, --list-providers             List providers
-         -a, --auto-download              Auto download best choice
-         -o, --open                       Open torrent after downloading
+    usage: tors [options] SEARCH_STRING
+        -d, --directory       Destination path for downloaded torrent
+        -p, --provider        Provider name
+        -u, --username        Username for authentication
+        -w, --password        Password for authentication
+        -l, --list-providers  List available providers
+        -a, --auto-download   Auto download best choice
+        -o, --open            Open torrent after downloading
+        -h, --help            Print help
+        -v, --version         Print version
 
 [![See it in action](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2.png)](https://asciinema.org/a/lxRQTTiTSUXVhD3dpzIwCcIs2)
 
